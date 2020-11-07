@@ -27,11 +27,21 @@ public class DeviceEntity {
 	@Column(name="updated_at")
 	private Date updated_at;
 	
-	@ManyToOne(fetch = FetchType.LAZY,optional = false)
+	@ManyToOne(fetch = FetchType.EAGER,optional = false)
 	@JoinColumn(name = "user_id")
 	private UserEntity userEntity;
-	@OneToMany(mappedBy = "deviceEntity",fetch = FetchType.EAGER)
-	private List<CropEntity> crop;
+	
+	@OneToMany(mappedBy = "deviceEntity",fetch = FetchType.LAZY)
+	private List<CropEntity> cropList;
+	
+	@OneToMany(mappedBy = "deviceEntity",fetch = FetchType.LAZY)
+	private List<SensorEntity> sensorList;
+	
+	@OneToMany(mappedBy = "deviceEntity",fetch = FetchType.LAZY)
+	private List<CommandEntity> commandList;
+	
+	@OneToMany(mappedBy = "deviceEntity",fetch = FetchType.LAZY)
+	private List<ActuatorEntity> actuatorList;
 	
 	public UserEntity getUser() {
 		return userEntity;
@@ -42,11 +52,11 @@ public class DeviceEntity {
 	}
 
 	public List<CropEntity> getCrop() {
-		return crop;
+		return cropList;
 	}
 
-	public void setCrop(List<CropEntity> crop) {
-		this.crop = crop;
+	public void setCrop(List<CropEntity> cropList) {
+		this.cropList = cropList;
 	}
 
 	public Long getId() {
