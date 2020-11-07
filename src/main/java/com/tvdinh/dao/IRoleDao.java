@@ -1,4 +1,9 @@
 package com.tvdinh.dao;
 
-public interface IRoleDao {
+import java.util.List;
+
+import com.tvdinh.entity.RoleEntity;
+
+public interface IRoleDao extends GenericDao<Long, RoleEntity> {
+	public List<RoleEntity> findAll();
 }
