@@ -8,3 +8,4 @@
     
  + Các annotation trong spring:
   
+ + Nếu sử dụng spring-integration mqtt thì chú ý để version của maven trùng với spring mvc và version 4.x.x sẽ có chút khác với 5.x.x nhé
