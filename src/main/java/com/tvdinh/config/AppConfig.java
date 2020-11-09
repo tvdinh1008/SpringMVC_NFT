@@ -13,29 +13,20 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @EnableScheduling
 public class AppConfig {
+	/*
 	@Autowired
 	MqttMessageListener mqttMessageListener;
-
+	
 	@Bean
 	public TaskExecutor taskExecutor() {
 		return new SimpleAsyncTaskExecutor();
 	}
-	/*
-	@Bean
-	public TaskExecutor getAsyncExecutor() {
-		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(20);
-		executor.setMaxPoolSize(1000);
-		executor.setWaitForTasksToCompleteOnShutdown(true);
-		executor.setThreadNamePrefix("Async-");
-		return executor;
-	}
-	*/
 	@Bean
 	public SmartInitializingSingleton importProcessor() {
 		return () -> {
 			taskExecutor().execute(mqttMessageListener);
 		};
 	}
+	*/
 
 }

@@ -11,7 +11,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class MQTTPublisher implements MqttCallback, MQTTPublisherBase {
 	
 	//private static String topic = "mqtt/nhom04";
@@ -42,10 +42,11 @@ public class MQTTPublisher implements MqttCallback, MQTTPublisherBase {
 		}
 	}
 	
+	/*
 	public static MQTTPublisher getInstance() {
 		return new MQTTPublisher();
 	}
-	
+	*/
 	
 	//service publisher
 	@Override
@@ -71,7 +72,7 @@ public class MQTTPublisher implements MqttCallback, MQTTPublisherBase {
 	
 	@Override
 	public void connectionLost(Throwable cause) {
-		// TODO Auto-generated method stub
+		System.out.println("Connection to MQTT broker lost! (publish)");
 		
 	}
 

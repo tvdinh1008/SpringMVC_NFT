@@ -12,7 +12,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class MQTTSubscriber implements MqttCallback, MQTTSubscriberBase {
 
 	//private static String topic = "mqtt/nhom04";
@@ -65,7 +65,7 @@ public class MQTTSubscriber implements MqttCallback, MQTTSubscriberBase {
 	//Gọi callback khi có message gửi tới
 	@Override
 	public void connectionLost(Throwable cause) {
-		System.out.println("Connection to MQTT broker lost!");
+		System.out.println("Connection to MQTT broker lost!(subsciber)");
 	}
 
 	@Override

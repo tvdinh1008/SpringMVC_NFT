@@ -1,15 +1,13 @@
 package com.tvdinh.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.tvdinh.mqtt.subscriber.MQTTSubscriberBase;
 
 @Component
 public class MqttMessageListener implements Runnable {
-
-	@Autowired
-	MQTTSubscriberBase subscriber;
+	
+	//@Autowired
+	//MQTTSubscriberBase subscriber;
 
 	@Override
 	public void run() {
@@ -19,12 +17,14 @@ public class MqttMessageListener implements Runnable {
 		 * vẫn nhận dữ liệu tức chỉ cần gọi 1 lần- nếu mất kết nối thì nó thoát khỏi cái
 		 * này)
 		 */
+		/*
 		while (true) {
 
 			subscriber.subscribeMessage("mqtt/nhom04");
 			subscriber.subscribeMessage("mqtt/nhom05");
 
 		}
+		*/
 	}
 
 }

@@ -47,4 +47,41 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
 		}
 		return result;
 	}
+
+	@Override
+	public List<T> findRange(int firstResult, int maxResults) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T update(T entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T save(T entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T findById(ID var1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer delete(ID[] ids) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long count() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
