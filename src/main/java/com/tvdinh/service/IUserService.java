@@ -7,5 +7,6 @@ import com.tvdinh.entity.UserEntity;
 public interface IUserService {
 	public List<UserEntity> findAll();
 	public UserEntity findById(Long id);
+	UserEntity save();
 }
 

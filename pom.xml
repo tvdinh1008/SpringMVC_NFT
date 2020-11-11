@@ -15,10 +15,11 @@
 		<hibernate.version>4.3.6.Final</hibernate.version>
 		<spring.data>1.11.5.RELEASE</spring.data>
 
+		<springsecurity.version>4.2.19.RELEASE</springsecurity.version>
+
 		<jsp.api.version>2.0</jsp.api.version>
 		<jstl.version>1.2</jstl.version>
 		<servlet.api.version>3.1.0</servlet.api.version>
-
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,6 +27,53 @@
 	</properties>
 
 	<dependencies>
+	
+		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.0</version>
+		</dependency>
+
+		<!-- thư viện hỗ trợ một số tiện ích của string -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<!-- spring security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${springsecurity.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${springsecurity.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-acl</artifactId><!-- It provides support for 
+				domain object security through access control lists(ACL's). -->
+			<version>${springsecurity.version}</version>
+		</dependency>
+
+		<!-- spring secuirty taglibs use Jsp -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${springsecurity.version}</version>
+		</dependency>
+
+
 		<!-- áp dụng với jdk 14 -->
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -123,27 +171,27 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		
-	
+
+
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-mqtt</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-core</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
 
-		
+
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-stream</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
-	
+
 
 		<!-- https://mvnrepository.com/artifact/org.eclipse.paho/org.eclipse.paho.client.mqttv3 -->
 		<dependency>

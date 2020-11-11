@@ -24,4 +24,11 @@ public class RoleService implements IRoleService {
 		list=roleDao.findAll();
 		int k=0;
 	}
+
+	@Override
+	public RoleEntity findByCode(String code) {
+		RoleEntity role=roleDao.findByCode(code);
+		return role;
+	}
+
 }

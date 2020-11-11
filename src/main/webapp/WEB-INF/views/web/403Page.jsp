@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Đây là trang quản trị</h1>
-	<h1>Xin chào ${pageContext.request.userPrincipal.name}</h1>
+	<h3 style="color:red;">${message}</h3>
 	<jsp:include page="_menu.jsp" />
 </body>
 </html>
