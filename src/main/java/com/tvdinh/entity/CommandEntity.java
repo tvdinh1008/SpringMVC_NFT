@@ -26,7 +26,7 @@ public class CommandEntity {
 	private String source;
 	@Column(name = "is_done")
 	private int isDone;
-	@ManyToOne(optional = false,fetch = FetchType.EAGER)
+	@ManyToOne(optional = false,fetch = FetchType.LAZY)
 	@JoinColumn(name = "device")
 	private DeviceEntity deviceEntity;
 	public Long getId() {

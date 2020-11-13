@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+
 @Entity
 @Table(name = "[role]")
 public class RoleEntity {
@@ -25,6 +29,7 @@ public class RoleEntity {
 	@Column(name="code", columnDefinition = "nvarchar(250) NOT NULL UNIQUE")
 	private String code;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "roleEntity", fetch = FetchType.LAZY)
 	private List<UserEntity> userList;
 

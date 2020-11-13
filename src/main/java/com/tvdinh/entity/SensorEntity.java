@@ -1,6 +1,7 @@
 package com.tvdinh.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "[sensor]")
 public class SensorEntity {
@@ -21,13 +24,15 @@ public class SensorEntity {
 	private Long id;
 	@Column(name="name", columnDefinition = "nvarchar(250)")
 	private String name;
-	@ManyToOne(fetch = FetchType.EAGER,optional = false)
+	@ManyToOne(fetch = FetchType.LAZY,optional = false)
 	@JoinColumn(name = "sensor_type")
 	private SensorTypeEntity sensorTypeEntity;
-	@OneToMany(mappedBy = "sensorEntity",fetch = FetchType.LAZY)
-	private List<SensorDataEnity> sensorDataList;
 	
-	@ManyToOne(optional = false,fetch = FetchType.EAGER)
+	@JsonIgnore
+	@OneToMany(mappedBy = "sensorEntity",fetch = FetchType.LAZY)
+	private Set<SensorDataEnity> sensorDataList;
+	
+	@ManyToOne(optional = false,fetch = FetchType.LAZY)
 	@JoinColumn(name = "device")
 	private DeviceEntity deviceEntity;
 	
@@ -55,11 +60,12 @@ public class SensorEntity {
 	public void setSensorTypeEntity(SensorTypeEntity sensorTypeEntity) {
 		this.sensorTypeEntity = sensorTypeEntity;
 	}
-	public List<SensorDataEnity> getSensorDataList() {
+	public Set<SensorDataEnity> getSensorDataList() {
 		return sensorDataList;
 	}
-	public void setSensorDataList(List<SensorDataEnity> sensorDataList) {
+	public void setSensorDataList(Set<SensorDataEnity> sensorDataList) {
 		this.sensorDataList = sensorDataList;
 	}
+	
 	
 }

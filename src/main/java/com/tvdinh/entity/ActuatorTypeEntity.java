@@ -1,6 +1,7 @@
 package com.tvdinh.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table (name = "[actuator_type]")
 public class ActuatorTypeEntity {
@@ -19,9 +22,9 @@ public class ActuatorTypeEntity {
 	private Long id;
 	@Column(name="name", columnDefinition = "nvarchar(250)")
 	private String name;
-	
+	@JsonIgnore
 	@OneToMany(mappedBy = "actuatorTypeEntity",fetch = FetchType.LAZY)
-	private List<ActuatorEntity> actuatorList;
+	private Set<ActuatorEntity> actuatorList;
 
 	public Long getId() {
 		return id;
@@ -39,12 +42,12 @@ public class ActuatorTypeEntity {
 		this.name = name;
 	}
 
-	public List<ActuatorEntity> getActuatorList() {
+	public Set<ActuatorEntity> getActuatorList() {
 		return actuatorList;
 	}
 
-	public void setActuatorList(List<ActuatorEntity> actuatorList) {
+	public void setActuatorList(Set<ActuatorEntity> actuatorList) {
 		this.actuatorList = actuatorList;
 	}
-	
+
 }

@@ -3,6 +3,7 @@ package com.tvdinh.entity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table (name = "[user]")
@@ -43,28 +46,40 @@ public class UserEntity {
 	@Column(name = "last_login")
 	private Date last_login;
 	
-	@ManyToOne(fetch = FetchType.EAGER,optional = false)
+	@ManyToOne(fetch = FetchType.LAZY,optional = false)
 	@JoinColumn(name = "role_id")
 	private RoleEntity roleEntity;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "userEntity",fetch = FetchType.LAZY)
-	private List<CropEntity> cropList;
+	private Set<CropEntity> cropList;
+	@JsonIgnore
 	@OneToMany(mappedBy = "userEntity",fetch = FetchType.LAZY)
-	private List<DeviceEntity> deviceList;
+	private Set<DeviceEntity> deviceList;
 
-	public List<CropEntity> getCropList() {
+	
+
+	public RoleEntity getRoleEntity() {
+		return roleEntity;
+	}
+
+	public void setRoleEntity(RoleEntity roleEntity) {
+		this.roleEntity = roleEntity;
+	}
+
+	public Set<CropEntity> getCropList() {
 		return cropList;
 	}
 
-	public void setCropList(List<CropEntity> cropList) {
+	public void setCropList(Set<CropEntity> cropList) {
 		this.cropList = cropList;
 	}
 
-	public List<DeviceEntity> getDeviceList() {
+	public Set<DeviceEntity> getDeviceList() {
 		return deviceList;
 	}
 
-	public void setDeviceList(List<DeviceEntity> deviceList) {
+	public void setDeviceList(Set<DeviceEntity> deviceList) {
 		this.deviceList = deviceList;
 	}
 

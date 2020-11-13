@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table (name = "[plant]")
 public class PlantEntity {
@@ -37,7 +39,7 @@ public class PlantEntity {
 	private String type;
 	@Column(name = "verified")
 	private Integer verified;
-	
+	@JsonIgnore
 	@OneToMany(mappedBy = "plantEntity", fetch = FetchType.LAZY)
 	private List<CropEntity> cropList;
 

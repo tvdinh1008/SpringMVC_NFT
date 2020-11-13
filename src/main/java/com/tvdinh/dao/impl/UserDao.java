@@ -4,18 +4,19 @@ import com.tvdinh.dao.IUserDao;
 import com.tvdinh.entity.UserEntity;
 
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserDao extends AbstractDao<Long, UserEntity> implements IUserDao {
-
 	@Override
+	@Transactional
 	public UserEntity findOneUsernameAndStatus(String username, int status) {
 		UserEntity result=null;
 		try {
 			StringBuilder sql=new StringBuilder("");
-			sql.append("Select * from [user] Where username=:username and status=:status");
+			sql.append("Select * from [user] INNER JOIN role on([user].id=role.id) Where username=:username and status=:status");
 			
 			Query q=entityManager.createNativeQuery(sql.toString(),UserEntity.class);
 			q.setParameter("username", username);
@@ -29,4 +30,17 @@ public class UserDao extends AbstractDao<Long, UserEntity> implements IUserDao {
 		}
 		return result;
 	}
+
+	@Override
+	public UserEntity findOneUsername(String username) {
+		UserEntity result=null;
+		String sql="Select t from "+ getPersistenceClassName()+" t JOIN FETCH t.roleEntity where username=:username";
+		//String sql="Select t from "+ getPersistenceClassName()+" t where username=:username";
+		Query q = entityManager.createQuery(sql);
+		q.setParameter("username", username);
+		result=(UserEntity) q.getSingleResult();
+		//result.getRole().getId();
+		return result;
+	}
+	
 }

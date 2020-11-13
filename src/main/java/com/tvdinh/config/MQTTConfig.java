@@ -1,19 +1,10 @@
 package com.tvdinh.config;
 
-import java.util.Date;
-import java.util.UUID;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ScheduledFuture;
 
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import java.util.concurrent.Executor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.integration.annotation.IntegrationComponentScan;
-import org.springframework.integration.annotation.MessagingGateway;
-import org.springframework.integration.annotation.ServiceActivator;
-import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.core.MessageProducer;
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
@@ -22,18 +13,12 @@ import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannel
 import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageChannel;
-//import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
-//import org.springframework.integration.mqtt.core.MqttPahoClientFactory;
-//import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
 import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
-import org.springframework.stereotype.Component;
 
 /*
  * Có thể là do ta đang dùng spring 4 mà mqtt sư dụng spring 5

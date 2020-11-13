@@ -133,9 +133,9 @@
             <h2>Log in</h2>
             <p class="hint-text">Sign in to start your session.</p>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <input type="email" class="form-control" name="email" placeholder="Email" required="required">
-            </div>
+            </div> -->
              <div class="form-group">
                 <input type="text" class="form-control" name="username" placeholder="username" required="required">
             </div>

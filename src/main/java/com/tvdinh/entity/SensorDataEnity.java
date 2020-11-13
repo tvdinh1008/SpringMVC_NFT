@@ -23,7 +23,7 @@ public class SensorDataEnity {
 	@Column(name = "time")
 	private Date time; 
 	
-	@ManyToOne(optional = false,fetch = FetchType.EAGER)
+	@ManyToOne(optional = false,fetch = FetchType.LAZY)
 	@JoinColumn(name = "sensor")
 	private SensorEntity sensorEntity;
 

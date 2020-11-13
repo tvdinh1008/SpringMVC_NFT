@@ -1,6 +1,7 @@
 package com.tvdinh.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "[sensor_type]")
@@ -21,8 +24,9 @@ public class SensorTypeEntity {
 	@Column(name="name", columnDefinition = "nvarchar(250)")
 	private String name;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "sensorTypeEntity",fetch = FetchType.LAZY)
-	private List<SensorEntity> sensorList;
+	private Set<SensorEntity> sensorList;
 
 	public Long getId() {
 		return id;
@@ -40,11 +44,13 @@ public class SensorTypeEntity {
 		this.name = name;
 	}
 
-	public List<SensorEntity> getSensorList() {
+	public Set<SensorEntity> getSensorList() {
 		return sensorList;
 	}
 
-	public void setSensorList(List<SensorEntity> sensorList) {
+	public void setSensorList(Set<SensorEntity> sensorList) {
 		this.sensorList = sensorList;
 	}
+
+
 }

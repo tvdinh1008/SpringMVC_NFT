@@ -41,7 +41,7 @@ public class HomeController {
 		mqtt.handleMessage(message);
 		
 		
-		userService.save();
+		//userService.save();
 		
 		return new ModelAndView("web/home");
 	}

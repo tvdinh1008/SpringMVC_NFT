@@ -21,7 +21,7 @@ public class MyUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserEntity user=userDao.findOneUsernameAndStatus(username, 1);
+		UserEntity user=userDao.findOneUsername(username);
 		
 		if(user==null)
 		{
@@ -38,6 +38,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		// UserDetails nên ta có thể return myUser
 		MyUser myUser = new MyUser(user.getUsername(), user.getPassword(), true, true, true, true, authorities);
 		myUser.setFullName(user.getFull_name());
+
 		return myUser;
 	}
 

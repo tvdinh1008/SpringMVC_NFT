@@ -1,7 +1,5 @@
 package com.tvdinh.entity;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,14 +18,14 @@ public class ActuatorEntity {
 	private Long id;
 	@Column(name="name", columnDefinition = "nvarchar(250)")
 	private String name;
-	@Column(name = "status")
+	@Column(name = "stastus")
 	private String status;
 	
-	@ManyToOne(optional = false,fetch = FetchType.EAGER)
+	@ManyToOne(optional = false,fetch = FetchType.LAZY)
 	@JoinColumn(name = "actuator_type")
 	private ActuatorTypeEntity actuatorTypeEntity;
 	
-	@ManyToOne(optional = false,fetch = FetchType.EAGER)
+	@ManyToOne(optional = false,fetch = FetchType.LAZY)
 	@JoinColumn(name = "device")
 	private DeviceEntity deviceEntity;
 

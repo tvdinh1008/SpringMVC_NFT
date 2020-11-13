@@ -1,7 +1,7 @@
 package com.tvdinh.entity;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table (name = "[device]")
@@ -27,21 +29,47 @@ public class DeviceEntity {
 	@Column(name="updated_at")
 	private Date updated_at;
 	
-	@ManyToOne(fetch = FetchType.EAGER,optional = false)
+	
+	@ManyToOne(fetch = FetchType.LAZY,optional = false)
 	@JoinColumn(name = "user_id")
 	private UserEntity userEntity;
 	
+
 	@OneToMany(mappedBy = "deviceEntity",fetch = FetchType.LAZY)
-	private List<CropEntity> cropList;
+	@JsonIgnore
+	private Set<CropEntity> cropList;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "deviceEntity",fetch = FetchType.LAZY)
-	private List<SensorEntity> sensorList;
+	private Set<SensorEntity> sensorList;
+	@JsonIgnore
+	@OneToMany(mappedBy = "deviceEntity",fetch = FetchType.LAZY)
+	private Set<CommandEntity> commandList;
+	@JsonIgnore
+	@OneToMany(mappedBy = "deviceEntity",fetch = FetchType.LAZY)
+	private Set<ActuatorEntity> actuatorList;
 	
-	@OneToMany(mappedBy = "deviceEntity",fetch = FetchType.LAZY)
-	private List<CommandEntity> commandList;
 	
-	@OneToMany(mappedBy = "deviceEntity",fetch = FetchType.LAZY)
-	private List<ActuatorEntity> actuatorList;
+	
+	public UserEntity getUserEntity() {
+		return userEntity;
+	}
+
+	public void setUserEntity(UserEntity userEntity) {
+		this.userEntity = userEntity;
+	}
+
+	
+	public Set<CropEntity> getCropList() {
+		return cropList;
+	}
+
+	public void setCropList(Set<CropEntity> cropList) {
+		this.cropList = cropList;
+	}
+
+	
+
 	
 	public UserEntity getUser() {
 		return userEntity;
@@ -51,13 +79,7 @@ public class DeviceEntity {
 		this.userEntity = user;
 	}
 
-	public List<CropEntity> getCrop() {
-		return cropList;
-	}
-
-	public void setCrop(List<CropEntity> cropList) {
-		this.cropList = cropList;
-	}
+	
 
 	public Long getId() {
 		return id;
@@ -89,6 +111,30 @@ public class DeviceEntity {
 
 	public void setUpdated_at(Date updated_at) {
 		this.updated_at = updated_at;
+	}
+
+	public Set<SensorEntity> getSensorList() {
+		return sensorList;
+	}
+
+	public void setSensorList(Set<SensorEntity> sensorList) {
+		this.sensorList = sensorList;
+	}
+
+	public Set<CommandEntity> getCommandList() {
+		return commandList;
+	}
+
+	public void setCommandList(Set<CommandEntity> commandList) {
+		this.commandList = commandList;
+	}
+
+	public Set<ActuatorEntity> getActuatorList() {
+		return actuatorList;
+	}
+
+	public void setActuatorList(Set<ActuatorEntity> actuatorList) {
+		this.actuatorList = actuatorList;
 	}
 
 	
