@@ -18,7 +18,7 @@ public class SensorDao extends AbstractDao<Long, SensorEntity> implements ISenso
 	public List<SensorEntity> findByDeviceId(Long id) {
 		List<SensorEntity> result=new ArrayList<SensorEntity>();
 		try {
-			String sql="select t from "+getPersistenceClassName()+" t where device=:id";
+			String sql="select t from "+getPersistenceClassName()+" t where device=:id and alive=1";
 			Query q=entityManager.createQuery(sql);
 			q.setParameter("id", id);
 			result=q.getResultList();

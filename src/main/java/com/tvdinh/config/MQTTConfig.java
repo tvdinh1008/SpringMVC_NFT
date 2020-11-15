@@ -1,8 +1,16 @@
 package com.tvdinh.config;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -80,7 +88,7 @@ public class MQTTConfig {
 	@Bean
 	public MessageProducer inbound() {
 		MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("clientId",
-				mqttClientFactory(), "iot/nhom04", "iot/nhom05", "nct_authetication", "nct_keep_alive", "nct_collect");
+				mqttClientFactory(), "iot/nhom04", "iot/nhom05", "nct_authetication", "nct_keep_alive", "nct_collect","nct_collect_image");
 		adapter.setCompletionTimeout(5000);
 		adapter.setConverter(new DefaultPahoMessageConverter());
 		adapter.setQos(2);
@@ -95,11 +103,12 @@ public class MQTTConfig {
 	public PublishSubscribeChannel outbount() {
 		PublishSubscribeChannel psc = new PublishSubscribeChannel();
 		psc.subscribe(new MessageHandler() {
+			@SuppressWarnings("resource")
 			@Override
 			public void handleMessage(Message<?> message) throws MessagingException {
 				String received_topic = (String) message.getHeaders().get(MqttHeaders.TOPIC);
 				// int qos=(int) message.getHeaders().get(MqttHeaders.QOS);
-				System.out.println("**************** Message : " + message.getPayload() + " Headers:" + message.getHeaders());
+				//System.out.println("**************** Message : " + message.getPayload() + " Headers:" + message.getHeaders());
 				if (received_topic.equals("nct_authetication")) {
 				/*
 				 * Sau khi authen thì device sẽ chuyển sang trạng thái sẵn sàng
@@ -154,6 +163,24 @@ public class MQTTConfig {
 					} catch (IOException e) {
 						logger.error(e.getMessage());
 					}
+				}
+				//Nhận ảnh
+				if(received_topic.equals("nct_collect_image")) {
+					try {
+						byte data1[]=Base64.getDecoder().decode((String)message.getPayload());
+						//byte data[] = ((String)message.getPayload()).getBytes();
+						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+						String timeStamp = dateFormat.format(new Date());
+						String imageFileName = "picture_" + timeStamp + ".jpg";
+					
+						File photo=new File("E:\\JAVA_WEB\\tmp\\"+imageFileName);
+						FileOutputStream fileOuputStream = new FileOutputStream(photo);
+						fileOuputStream.write(data1);
+						fileOuputStream.close();
+					} catch (Exception e) {
+						logger.error(e.getMessage());
+					}
+	                
 				}
 			}
 		});
