@@ -1,60 +1,120 @@
 import paho.mqtt.client as mqtt
 import time
+from datetime import datetime
+import json
 import base64
 
-mqtt_pub_topic="nct_collect_image"
-client=mqtt.Client()
+mqtt_sub_topic_auth = "nct_authentication_result_1"
+mqtt_sub_topic_cmd = "create_crop_command"
 
-#Hàm callback khi connect success
+mqtt_pub_topic_keepalive = "nct_keep_alive"
+mqtt_pub_topic_collect_data = "nct_collect"
+mqtt_pub_topic_collect_image = "nct_collect_image"
+mqtt_pub_topic_auth = "nct_authetication"
+
+data ='{"id": 1,"device_token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiY3JvcElkIjoyLCJkZXZpY2VJZCI6MSwiZXhwIjoxNjA2MDE0ODM2fQ.W2AKM7STkd-1mtXVZJeaDd88gpedAJmpUsmv6Dh7pqVONSKtqVR4hcHC_eyxac5m63zk4p3nCszGUVq03T1apw","timestamp": "1605409820","packet_no": 123,"temperature": 29.1,"humidity": 52.4,"ec": 0.45,"ph": 6.7,"light": 3400,"water_temp": 20.5}'
+auth = '{"user_token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaW5oIiwiZXhwIjoxNjA1OTI3OTc4fQ.-pQjjEsjDK9ac3-Og9CBTg97zFwLOviKIzJb2vaj4DWNRomE_oORa16mBbt9f_NMjPCm7Au3tm3OZQaUBQXkMg","id": 1}'
+
+client = mqtt.Client()
+
+
+# Hàm callback khi connect success
 def on_connect(client, userdata, flags, rc):
+    client.auth_flag = False
     client.connected_flag = True
     client.disconnect_flag = False
+    #client.subscribe(mqtt_sub_topic_auth, qos=1)
+    #client.subscribe(mqtt_sub_topic_cmd, qos=1)
     print("Connected")
-    print("rc: " + str(rc))
 
-#Hàm callback khi client publish dữ liệu mid sẽ +1 sau mỗi lần pulish
+
+# Hàm callback khi client publish dữ liệu mid sẽ +1 sau mỗi lần pulish
 def on_publish(client, userdata, mid):
-    print("mid: "+str(mid))
+    print("mid: " + str(mid))
+
 
 def on_disconnect(client, userdata, rc):
-    print("disconnecting reason  "  +str(rc))
-    client.connected_flag=False
-    client.disconnect_flag=True
+    print("disconnecting reason  " + str(rc))
+    client.connected_flag = False
+    client.disconnect_flag = True
     client.loop_stop()
 
-def init_mqtt(client,mqtt_host,mqtt_port,mqtt_uid,mqtt_password):
-    mqtt.Client.connected_flag=False
-    #client.username_pw_set(username=mqtt_uid,password=mqtt_password)
+
+# Hàm callback đăng kí topic
+def on_subscribe(client, userdata, mid, granted_qos):
+    print("Subscribed: " + str(mid) + " " + str(granted_qos) + " " + "Topic: ")
+
+
+# Hàm callback khi MQTT có dữ liệu message gửi tới
+def on_message(client, userdata, message):
+    print("Topic:" + message.topic + ", Qos: " + str(message.qos) + ", Msg: " + str(message.payload.decode("utf-8")))
+    if(message.topic == mqtt_sub_topic_auth):
+        print("Topic:" + message.topic+" data:" +message.payload.decode("utf-8"))
+        client.auth_flag = True
+    if (message.topic==mqtt_sub_topic_cmd):
+        print("Topic:" + message.topic +" data:"+message.payload.decode("utf-8"))
+
+def init_mqtt(client, mqtt_host, mqtt_port, mqtt_uid, mqtt_password):
+    mqtt.Client.connected_flag = False
+    # client.username_pw_set(username=mqtt_uid,password=mqtt_password)
     client.on_connect = on_connect
     client.on_disconnect = on_disconnect
+    client.on_subscribe = on_subscribe
     client.on_publish = on_publish
+    client.on_message = on_message
     client.connect(mqtt_host, int(mqtt_port))
     client.loop_start()
-    while not client.connected_flag: #wait in loop
+    while not client.connected_flag:  # wait in loop
         print("In wait loop")
         time.sleep(1)
 
 def handler():
-    mqtt_host="mqtt.eclipse.org"
-    mqtt_port="1883"
-    mqtt_uid=""
-    mqtt_password=""
-    #Connection initiated
-    init_mqtt(client,mqtt_host,mqtt_port,mqtt_uid,mqtt_password)
-    i=1
-    while client.connected_flag:
-        f = open("image_test"+str(i)+".jpg", "rb")
-        fileContent = f.read()
-        encoder=base64.b64encode(fileContent)
-        #Gửi kiểu byte bên kia ko nhận được
-        #byteArr = bytearray(fileContent)
-        #client.publish(str(mqtt_pub_topic), "byteArr", qos=1)
-        client.publish(str(mqtt_pub_topic),encoder, qos = 1)
-        time.sleep(10)
-        i=i+1
-        if(i==4):
-            break
-    #client.loop_forever();
+    mqtt_host = "mqtt.eclipse.org"
+    mqtt_port = "1883"
+    mqtt_uid = ""
+    mqtt_password = ""
+    # Connection initiated
+    init_mqtt(client, mqtt_host, mqtt_port, mqtt_uid, mqtt_password)
 
+    #subscriber
+    client.subscribe(mqtt_sub_topic_auth, qos=1)
+    client.subscribe(mqtt_sub_topic_cmd, qos=1)
+
+    client.publish(str(mqtt_pub_topic_auth), str(auth), qos=1)
+    while not client.auth_flag:
+        print("In wait loop authentication")
+        time.sleep(1)
+
+    #publisher
+    i = 1
+    while client.connected_flag:
+        time.sleep(1)
+        now = datetime.now()
+        current_hour = now.hour
+        current_minute = now.minute
+        time_str = "Time - " + str(current_hour) + " : " + str(current_minute)
+        minute_of_day = current_hour * 60 + current_minute
+        if (minute_of_day % 2 == 1):
+            #Gửi keep alive
+            print("Send data keep alive")
+        if (minute_of_day % 3 ==0):
+            #Gửi data
+            print("send data")
+            client.publish(str(mqtt_pub_topic_collect_data), str(data), qos=1)
+        if (minute_of_day % 5==0):
+            #Gửi ảnh
+            print("send image")
+            f = open("image_test" + str(i) + ".jpg", "rb")
+            fileContent = f.read()
+            encoder = base64.b64encode(fileContent)
+            client.publish(str(mqtt_pub_topic_collect_image), encoder, qos=1)
+            i=i+1
+            if(i==4):
+                i=1
+        time.sleep(60)
+
+
+    # Hàm này sẽ bị treo
+    # client.loop_forever()
 if __name__ == "__main__":
     handler()

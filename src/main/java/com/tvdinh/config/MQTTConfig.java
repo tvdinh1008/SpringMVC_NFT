@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
@@ -148,6 +149,8 @@ public class MQTTConfig {
 				}
 				if (received_topic.equals("nct_collect")) {
 					// xác thực thông tin: deviceId, sensor data, DEVICE_TOKEN
+					
+					//Hoàn toàn có thể lấy timestamp ở message.getHeader nhé (qua get(Key));
 					try {
 						CollectData collectData=new ObjectMapper().readValue(message.getPayload().toString(),CollectData.class);
 						if(StringUtils.isNotBlank(collectData.getDevice_token()) && tokenProvider.validateJwtToken(collectData.getDevice_token())) {
