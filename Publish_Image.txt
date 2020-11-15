@@ -1,0 +1,60 @@
+import paho.mqtt.client as mqtt
+import time
+import base64
+
+mqtt_pub_topic="nct_collect_image"
+client=mqtt.Client()
+
+#Hàm callback khi connect success
+def on_connect(client, userdata, flags, rc):
+    client.connected_flag = True
+    client.disconnect_flag = False
+    print("Connected")
+    print("rc: " + str(rc))
+
+#Hàm callback khi client publish dữ liệu mid sẽ +1 sau mỗi lần pulish
+def on_publish(client, userdata, mid):
+    print("mid: "+str(mid))
+
+def on_disconnect(client, userdata, rc):
+    print("disconnecting reason  "  +str(rc))
+    client.connected_flag=False
+    client.disconnect_flag=True
+    client.loop_stop()
+
+def init_mqtt(client,mqtt_host,mqtt_port,mqtt_uid,mqtt_password):
+    mqtt.Client.connected_flag=False
+    #client.username_pw_set(username=mqtt_uid,password=mqtt_password)
+    client.on_connect = on_connect
+    client.on_disconnect = on_disconnect
+    client.on_publish = on_publish
+    client.connect(mqtt_host, int(mqtt_port))
+    client.loop_start()
+    while not client.connected_flag: #wait in loop
+        print("In wait loop")
+        time.sleep(1)
+
+def handler():
+    mqtt_host="mqtt.eclipse.org"
+    mqtt_port="1883"
+    mqtt_uid=""
+    mqtt_password=""
+    #Connection initiated
+    init_mqtt(client,mqtt_host,mqtt_port,mqtt_uid,mqtt_password)
+    i=1
+    while client.connected_flag:
+        f = open("image_test"+str(i)+".jpg", "rb")
+        fileContent = f.read()
+        encoder=base64.b64encode(fileContent)
+        #Gửi kiểu byte bên kia ko nhận được
+        #byteArr = bytearray(fileContent)
+        #client.publish(str(mqtt_pub_topic), "byteArr", qos=1)
+        client.publish(str(mqtt_pub_topic),encoder, qos = 1)
+        time.sleep(10)
+        i=i+1
+        if(i==4):
+            break
+    #client.loop_forever();
+
+if __name__ == "__main__":
+    handler()
