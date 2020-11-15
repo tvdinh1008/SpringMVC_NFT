@@ -24,6 +24,7 @@ public class HomeController {
 	private IRoleService roleService;
 	@Autowired
 	private MqttPahoMessageHandler mqtt;
+	@SuppressWarnings("unused")
 	@Autowired
 	private IUserService userService;
 

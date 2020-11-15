@@ -18,7 +18,6 @@ import com.tvdinh.authentication.JwtTokenProvider;
 import com.tvdinh.entity.CropEntity;
 import com.tvdinh.entity.DeviceEntity;
 import com.tvdinh.entity.PlantEntity;
-import com.tvdinh.entity.SensorDataEnity;
 import com.tvdinh.entity.UserEntity;
 import com.tvdinh.payloads.JwtResponse;
 import com.tvdinh.payloads.LoginRequest;
@@ -48,11 +47,7 @@ public class WebController {
 		UserEntity userEntity=userService.save(user);
 		return userEntity;
 	}
-	/*
-	@PostMapping("/api/auth/signin")
-	public UserEntity signin(@RequestBody UserEntity user) {
-		return userService.findByUsernameAndPassword(user);
-	}*/
+	
 	@PostMapping("/api/auth/signin")
 	public JwtResponse  signin( @RequestBody LoginRequest loginRequest) {
 		

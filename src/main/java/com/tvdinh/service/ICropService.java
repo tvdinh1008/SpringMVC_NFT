@@ -1,5 +1,7 @@
 package com.tvdinh.service;
 
-public interface ICropService {
+import com.tvdinh.entity.CropEntity;
 
+public interface ICropService {
+	CropEntity save(CropEntity crop);
 }

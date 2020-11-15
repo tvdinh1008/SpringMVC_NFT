@@ -14,6 +14,7 @@ public class DemoRestController {
 	//private static String topic = "mqtt/nhom04";
 	
 	
+	@SuppressWarnings("unused")
 	@RequestMapping(value = "/api/publisher",method = RequestMethod.GET)
 	public String index() {
 		String message="Hello ace nhé!";

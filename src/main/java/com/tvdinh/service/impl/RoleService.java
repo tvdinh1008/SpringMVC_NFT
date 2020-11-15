@@ -18,6 +18,7 @@ public class RoleService implements IRoleService {
 	@Autowired
 	private IRoleDao roleDao;
 	
+	@SuppressWarnings("unused")
 	@Override
 	public void findAll() {
 		List<RoleEntity>list=roleRepository.findAll();
