@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "[crop]")
+@Table(name = "crop")
 public class CropEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

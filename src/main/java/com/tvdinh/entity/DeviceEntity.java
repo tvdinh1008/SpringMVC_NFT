@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table (name = "[device]")
+@Table (name = "device")
 public class DeviceEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

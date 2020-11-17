@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
-@Table (name = "[plant]")
+@Table (name = "plant")
 public class PlantEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

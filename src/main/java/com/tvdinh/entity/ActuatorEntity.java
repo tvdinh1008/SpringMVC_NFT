@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "[actuator]")
+@Table (name = "actuator")
 public class ActuatorEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

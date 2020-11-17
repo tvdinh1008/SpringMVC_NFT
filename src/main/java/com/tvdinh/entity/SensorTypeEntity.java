@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "[sensor_type]")
+@Table(name = "sensor_type")
 public class SensorTypeEntity {
 
 	@Id
